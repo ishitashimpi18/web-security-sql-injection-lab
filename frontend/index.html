@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Hub - Login</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="E-commerce application demonstrating backend integration.">
+</head>
+<body>
+    <div id="app">
+        <!-- Login Section -->
+        <main id="login-container" class="glass-panel">
+            <h2>Welcome Back</h2>
+            <p class="subtitle">Sign in to your account</p>
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required placeholder="Enter your username">
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter your password">
+                </div>
+                <div id="login-error" class="error-msg hidden">Invalid credentials. Please try again.</div>
+                <button type="submit" class="btn primary-btn">Login</button>
+            </form>
+            <div class="demo-hint">
+                <p><strong>Testing SQL Injection?</strong><br> Try username: <code>' OR '1'='1</code><br>Password: <code>anything</code></p>
+            </div>
+        </main>
+
+        <!-- Products Section -->
+        <main id="products-container" class="glass-panel hidden">
+            <header class="products-header">
+                <h2>Our Products</h2>
+                <button id="logout-btn" class="btn outline-btn">Logout</button>
+            </header>
+            <div id="products-grid" class="products-grid">
+                <!-- Products will be dynamically inserted here by JavaScript -->
+            </div>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
