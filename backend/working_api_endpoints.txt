@@ -1,0 +1,32 @@
+WORKING API ENDPOINTS
+=====================
+
+Here are the endpoints you can use to test the backend API.
+Assuming the server is running locally on port 3000 (default):
+
+1. Health Check
+   Method: GET
+   URL: http://localhost:3000/
+   Description: Checks if the API is running correctly.
+
+2. Vulnerable Login API
+   Method: POST
+   URL: http://localhost:3000/login
+   Description: Endpoint for user authentication. Designed to be vulnerable to SQL Injection.
+   Headers: Content-Type: application/json
+   Body Example:
+   {
+       "username": "admin",
+       "password": "admin123"
+   }
+   
+   SQL Injection Example Body:
+   {
+       "username": "' OR '1'='1",
+       "password": "anything"
+   }
+
+3. Products API
+   Method: GET
+   URL: http://localhost:3000/products
+   Description: Retrieves a list of all products in the database.
