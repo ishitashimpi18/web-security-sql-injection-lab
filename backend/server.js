@@ -17,25 +17,34 @@ app.get('/', (req, res) => {
 });
 
 // Task 3: Vulnerable Login API
+// Vulnerable Login API (UPDATED)
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
-    // VULNERABLE SQL QUERY (Directly concatenating user input)
-    // Example Attack Input 
-    // Username: ' OR '1'='1
-    const sql = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
-    
-    console.log("Executing Vulnerable Query:", sql); // Prints the executed query for demonstration
+    // ⚠️ INTENTIONALLY VULNERABLE QUERY
+    const sql = `SELECT * FROM users WHERE username = '${username}' AND (password = '${password}' OR '1'='1')`;
+
+    console.log("Executing Query:", sql);
 
     db.query(sql, (err, results) => {
         if (err) {
-            console.error('Database error:', err);
+            console.error(err);
             return res.status(500).json({ error: 'Database error' });
         }
 
-        // Check if any user matched the query
         if (results.length > 0) {
-            res.json({ message: 'Login successful!', user: results[0] });
+            // ✅ IMPORTANT CHANGE: Fetch products immediately after login
+            db.query("SELECT * FROM products", (err, products) => {
+                if (err) {
+                    return res.status(500).json({ error: 'Error fetching products' });
+                }
+
+                res.json({
+                    message: "Login successful via SQL Injection!",
+                    products: products
+                });
+            });
+
         } else {
             res.status(401).json({ message: 'Invalid credentials' });
         }
