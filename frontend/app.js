@@ -12,43 +12,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handle Login Submit
     loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        
-        // Hide previous errors
-        loginError.classList.add('hidden');
+    e.preventDefault();
 
-        try {
-            const response = await fetch(`${API_BASE}/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username, password })
-            });
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-            const data = await response.json();
+    loginError.classList.add('hidden');
 
-            if (response.ok) {
-                // Successful login
-                loginContainer.classList.add('hidden');
-                productsContainer.classList.remove('hidden');
-                
-                // Fetch and display products
-                fetchProducts();
-            } else {
-                // Failed login
-                loginError.textContent = data.message || 'Invalid credentials';
-                loginError.classList.remove('hidden');
-            }
-        } catch (error) {
-            loginError.textContent = 'Unable to connect to the backend server. Is it running?';
+    try {
+        const response = await fetch(`${API_BASE}/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Hide login
+            loginContainer.classList.add('hidden');
+            productsContainer.classList.remove('hidden');
+
+            // ✅ DIRECTLY USE PRODUCTS FROM RESPONSE
+            renderProducts(data.products);
+
+        } else {
+            loginError.textContent = data.message;
             loginError.classList.remove('hidden');
-            console.error('Login error:', error);
         }
-    });
+
+    } catch (error) {
+        loginError.textContent = 'Server not running!';
+        loginError.classList.remove('hidden');
+    }
+});
 
     // Handle Logout
     logoutBtn.addEventListener('click', () => {
